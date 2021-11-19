@@ -61,28 +61,18 @@ from EzilaX.modules.helper_funcs.misc import paginate_modules
 from EzilaX.modules.helper_funcs.readable_time import get_readable_time
 
 PM_START_TEXT = """
-*Hi, my name is* 🌸 දෙව්මි උත්තරා [🌸](https://telegra.ph/file/8cabfc3e05d3302d73dde.jpg) !
-
-I am a Powerful Group Manager bot Developed by [GD Hiruna](t.me/hirunaofficial)
-
-You can find my list of available commands with /help.
-
-©2021 [@DewmiBot](t.me/dewmibot) Bot All Rights Reserved
+ʜᴇʟʟᴏ  [🌸](https://telegra.ph/file/e5ed21083622be1f76717.jpg), ɪᴍ ᴀ ʜɪɢʜʏ ᴀᴅᴠᴀɴᴄᴇᴅ ʙᴏᴛ ᴡɪᴛʜ ʟᴏᴛꜱ ᴏꜰ ᴀᴍᴀᴢɪɴɢ ᴛᴏᴏʟꜱ.
+`ɪ'ᴍ ʜᴇʀᴇ ᴛᴏ ʜᴇʟᴘ ʏᴏᴜ ᴍᴀɴᴀɢᴇ ʏᴏᴜʀ ɢʀᴏᴜᴘꜱ! ʜɪᴛ` /help
 """
 
 HELP_STRINGS = f"""
-*Main Commands :* [🤖](https://telegra.ph/file/8cabfc3e05d3302d73dde.jpg)
-Hey there! My name is *🌸 දෙව්මි උත්තරා 🌸*
-I'm Powerful BOT to Make Your Groups Secured and Organized & I help admins to manage their groups! Have a look at the following for an idea of some of \
-the things I can help you with.
-
-Main commands available:
- • /help: PM's you this message.
- • /help <module name>: PM's you info about that module.
- • /donate: information on how to donate!
- • /settings:
-   • in PM: will send you your settings for all supported modules.
-   • in a group: will redirect you to pm, with all that chat's settings.
+`ʜɪ..[🌸](https://telegra.ph/file/e5ed21083622be1f76717.jpg)
+`ᴄʟɪᴄᴋ ᴏɴ ᴛʜᴇ ʙᴜᴛᴛᴏɴꜱ ʙᴇʟᴏᴡ ᴛᴏ ɢᴇᴛ ᴅᴏᴄᴜᴍᴇɴᴛᴀᴛɪᴏɴ ᴀʙᴏᴜᴛ ꜱᴘᴇᴄɪꜰɪᴄ ᴍᴏᴅᴜʟᴇꜱ..`
+✪ /start: Starts me! You've probably already used this.
+✪ /help: Click this, I'll let you know about myself!
+✪ /settings: 
+   ◔ in PM: will send you your settings for all supported modules.
+   ◔ in a Group: will redirect you to pm, with all that chat's settings.
 """.format(
     dispatcher.bot.first_name,
     "" if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n",
@@ -90,32 +80,24 @@ Main commands available:
 
 
 DONATE_STRING = """
-*🌸 දෙව්මි උත්තරා 🌸* is hosted on one of Heroku's Servers and doesn't require any donations as of now but \
-You can donate to the developer of the *🌸 දෙව්මි උත්තරා 🌸*, [GD Hiruna](t.me/hirunaofficial)
+Heya, glad to hear you want to donate! You can donate to the original writer's of the Base code,Support them  [SLNinjaTeam](t.me/SLNinjaTeam)
 """
 
 BUTTONS = [
                     [
                         InlineKeyboardButton(
-                             text=" 👪 Support Group ",
-                             url="https://t.me/sltechzoneofficial"),
-                         InlineKeyboardButton(
-                             text=" 🔔 Update Channel ",
-                             url="https://t.me/sltechzone")
+                             text=" ☘️ Support Group ",
+                             url="https://t.me/slninjateam"),
                     ],
                     [
                         InlineKeyboardButton(
                             text=" 🙋 Help ",
-                            url="https://t.me/dewmibot?start=help"),
-                         InlineKeyboardButton(
-                            text=" ⚡️ Developer ",
-                             url="https://t.me/hirunaofficial")        
-                       
+                            url="https://t.me/slninjabot?start=help"),
                     ],
                     [
                         InlineKeyboardButton(
                             text=" ➕ Add Me to Your Group ",
-                            url="t.me/dewmibot?startgroup=true")
+                            url="t.me/slninjabot?startgroup=true")
                     
                     ],
             ]
@@ -303,7 +285,7 @@ def help_button(update, context):
         if mod_match:
             module = mod_match.group(1)
             text = (
-                "*｢ Help for DewmiBot {} Module 」*\n".format(
+                "*⚊❮❮❮❮ ｢  Help  for  {}  module 」❯❯❯❯⚊*\n".format(
                     HELPABLE[module].__mod_name__
                 )
                 + HELPABLE[module].__help__

@@ -91,10 +91,8 @@ buttons = [
             text="➕️ ᴀᴅᴅ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘ ➕️", url="t.me/slninjabot?startgroup=true"),
     ],
     [
-        InlineKeyboardButton(text="🍄 ᴀʙᴏᴜᴛ 🍄", callback_data="yone_"),
         InlineKeyboardButton(
-            text="☘️ ꜱᴜᴘᴘᴏʀᴛ ☘️", url=f"https://t.me/slninjateam",
-        ),
+            text="☘️ ꜱᴜᴘᴘᴏʀᴛ ☘️", url=f"https://t.me/slninjateam"),
     ],
     [
         InlineKeyboardButton(text="ʜᴇʟᴘ & ᴄᴏᴍᴍᴀɴᴅꜱ❔", callback_data="https://t.me/slninjabot?start=help"),

@@ -84,7 +84,7 @@ DONATE_STRING = """Heya, glad to hear you want to donate!
 You can donate to the original writer's of the Base code,
 Support them  [SLNinjaTeam](t.me/SLNinjaTeam)"""
 
-buttons = [
+BUTTONS = [
     [
         InlineKeyboardButton(
             text="➕️ ᴀᴅᴅ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘ ➕️", url="t.me/slninjabot?startgroup=true"),
@@ -217,7 +217,7 @@ def start(update: Update, context: CallbackContext):
             )
     else:
         update.effective_message.reply_text(
-            "I'm awake already! 😉\n<b>Haven't slept since:</b> <code>{}</code>".format(
+            "මම දැනටමත් අවදියෙන් සිටිමි! 😉\n<b>එදා ඉඳන් නින්ද ගියේ නෑ:</b> <code>{}</code>".format(
                 uptime
             ),
             parse_mode=ParseMode.HTML,
@@ -492,7 +492,7 @@ def get_help(update, context):
         if len(args) >= 2 and any(args[1].lower() == x for x in HELPABLE):
             module = args[1].lower()
             update.effective_message.reply_text(
-                f"Contact me in PM to get help of {module.capitalize()}",
+                f"හෙලෝ මාගේ සහය ලබා ගැනිමට Help බොත්තම ඔබන්න. {module.capitalize()}",
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [

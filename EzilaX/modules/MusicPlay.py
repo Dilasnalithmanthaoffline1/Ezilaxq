@@ -8,11 +8,11 @@ __help__ = """
 
 * 🟡For Channel Music Play🟡 *
 
-1) Make @EzilaXMBot admin of your channel 
+1) Make @SLNinjabot admin of your channel 
 2) Send /userbotjoinchannel in linked group
 3) Now send commands in linked group 
 
-* ⚪️Groups Music Play⚪️ *
+* ⚪️ Groups Music Play ⚪️ *
 
 • /play: Play song using youtube music
 • /play [yt url] : Play the given yt url
@@ -20,7 +20,7 @@ __help__ = """
 • /dplay: Play song via deezer
 • /splay: Play song via jio saavn
  
- * 🟣Playback🟣 *
+ * 🟣 Playback 🟣 *
 
 • /player: Open Settings menu of player
 • /skip: Skips the current track
@@ -31,7 +31,7 @@ __help__ = """
 • /playlist: Shows playlist
 Player cmd and all other cmds except /play, /current  and /playlist  are only for admins of the group. 
 
-* 🔴Channel Music Play🔴 *
+* 🔴 Channel Music Play 🔴 *
 
 • /cplay [song name] - play song you requested
 • /cdplay [song name] - play song you requested via deezer
@@ -51,20 +51,18 @@ channel is also can be used instead of c ( /cplay = /channelplay )
 1) Get your channel ID.
 2) Create a group with tittle: Channel Music: your_channel_id
 3) Add bot as Channel admin with full perms
-4) Add @EzilaXMBot to the channel as an admin.
+4) Add @SLNinjabot to the channel as an admin.
 5) Simply send commands in your group.
  
-* ⚫️More tools⚫️ *
+* ⚫️ More tools ⚫️ *
 
 • /admincache: Updates admin info of your group. Try if bot isn't recognize admin
 • /userbotjoin: Invite @EzilaXHelper Userbot to your chat 
  
 * 🔷Assisten🔷 *
-
-@EzilaXHelper
+   @SLNinjabotHelper
 
 * 🔸Bot🔸 *
-
-@EzilaXMBot
+  @SLNinjabot
 """
 __mod_name__ = "Music Play"

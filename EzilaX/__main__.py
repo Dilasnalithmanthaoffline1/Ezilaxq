@@ -54,8 +54,6 @@ from EzilaX import (
     updater,
 )
 
-# needed to dynamically load modules
-# NOTE: Module order is not guaranteed, specify that in the config file!
 from EzilaX.modules import ALL_MODULES
 from EzilaX.modules.helper_funcs.alternate import typing_action
 from EzilaX.modules.helper_funcs.chat_status import is_user_admin
@@ -63,43 +61,64 @@ from EzilaX.modules.helper_funcs.misc import paginate_modules
 from EzilaX.modules.helper_funcs.readable_time import get_readable_time
 
 PM_START_TEXT = """
-ʜᴇʟʟᴏ  [🌸](https://telegra.ph/file/e5ed21083622be1f76717.jpg), ɪᴍ ᴀ ʜɪɢʜʏ ᴀᴅᴠᴀɴᴄᴇᴅ ʙᴏᴛ ᴡɪᴛʜ ʟᴏᴛꜱ ᴏꜰ ᴀᴍᴀᴢɪɴɢ ᴛᴏᴏʟꜱ.
-`ɪ'ᴍ ʜᴇʀᴇ ᴛᴏ ʜᴇʟᴘ ʏᴏᴜ ᴍᴀɴᴀɢᴇ ʏᴏᴜʀ ɢʀᴏᴜᴘꜱ! ʜɪᴛ` /help  
+*Hi, my name is* 🌸 දෙව්මි උත්තරා [🌸](https://telegra.ph/file/8cabfc3e05d3302d73dde.jpg) !
+
+I am a Powerful Group Manager bot Developed by [GD Hiruna](t.me/hirunaofficial)
+
+You can find my list of available commands with /help.
+
+©2021 [@DewmiBot](t.me/dewmibot) Bot All Rights Reserved
 """
 
-buttons = [
-    [
-        InlineKeyboardButton(
-            text="➕️ ᴀᴅᴅ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘ ➕️", url="t.me/slninjabot?startgroup=true"),
-    ],
-    [
-        InlineKeyboardButton(
-            text="☘️ ꜱᴜᴘᴘᴏʀᴛ ☘️", url=f"https://t.me/slninjateam"),
-    ],
-    [
-        InlineKeyboardButton(text="ʜᴇʟᴘ & ᴄᴏᴍᴍᴀɴᴅꜱ❔", callback_data="help_back"),
-    ],
-]
-
-EzilaX_IMG = "https://telegra.ph/file/e5ed21083622be1f76717.jpg"
-
 HELP_STRINGS = f"""
-`ʜɪ..[🌸](https://telegra.ph/file/e5ed21083622be1f76717.jpg)
-`ᴄʟɪᴄᴋ ᴏɴ ᴛʜᴇ ʙᴜᴛᴛᴏɴꜱ ʙᴇʟᴏᴡ ᴛᴏ ɢᴇᴛ ᴅᴏᴄᴜᴍᴇɴᴛᴀᴛɪᴏɴ ᴀʙᴏᴜᴛ ꜱᴘᴇᴄɪꜰɪᴄ ᴍᴏᴅᴜʟᴇꜱ..`
-✪ /start: Starts me! You've probably already used this.
-✪ /help: Click this, I'll let you know about myself!
-✪ /settings: 
-   ◔ in PM: will send you your settings for all supported modules.
-   ◔ in a Group: will redirect you to pm, with all that chat's settings.
+*Main Commands :* [🤖](https://telegra.ph/file/8cabfc3e05d3302d73dde.jpg)
+Hey there! My name is *🌸 දෙව්මි උත්තරා 🌸*
+I'm Powerful BOT to Make Your Groups Secured and Organized & I help admins to manage their groups! Have a look at the following for an idea of some of \
+the things I can help you with.
+
+Main commands available:
+ • /help: PM's you this message.
+ • /help <module name>: PM's you info about that module.
+ • /donate: information on how to donate!
+ • /settings:
+   • in PM: will send you your settings for all supported modules.
+   • in a group: will redirect you to pm, with all that chat's settings.
 """.format(
     dispatcher.bot.first_name,
     "" if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n",
 )
 
 
-DONATE_STRING =  """Heya, glad to hear you want to donate!
-You can donate to the original writer's of the Base code,
-Support them  [SLNinjaTeam](t.me/SLNinjaTeam)"""
+DONATE_STRING = """
+*🌸 දෙව්මි උත්තරා 🌸* is hosted on one of Heroku's Servers and doesn't require any donations as of now but \
+You can donate to the developer of the *🌸 දෙව්මි උත්තරා 🌸*, [GD Hiruna](t.me/hirunaofficial)
+"""
+
+BUTTONS = [
+                    [
+                        InlineKeyboardButton(
+                             text=" 👪 Support Group ",
+                             url="https://t.me/sltechzoneofficial"),
+                         InlineKeyboardButton(
+                             text=" 🔔 Update Channel ",
+                             url="https://t.me/sltechzone")
+                    ],
+                    [
+                        InlineKeyboardButton(
+                            text=" 🙋 Help ",
+                            url="https://t.me/dewmibot?start=help"),
+                         InlineKeyboardButton(
+                            text=" ⚡️ Developer ",
+                             url="https://t.me/hirunaofficial")        
+                       
+                    ],
+                    [
+                        InlineKeyboardButton(
+                            text=" ➕ Add Me to Your Group ",
+                            url="t.me/dewmibot?startgroup=true")
+                    
+                    ],
+            ]
 
 IMPORTED = {}
 MIGRATEABLE = []
@@ -212,16 +231,15 @@ def start(update: Update, context: CallbackContext):
                 IMPORTED["rules"].send_rules(update, args[0], from_pm=True)
 
         else:
-            update.effective_user.first_name
             update.effective_message.reply_text(
                 PM_START_TEXT,
-                reply_markup=InlineKeyboardMarkup(buttons),
+                reply_markup=InlineKeyboardMarkup(BUTTONS),
                 parse_mode=ParseMode.MARKDOWN,
-                timeout=60,
+                timeout=60, 
             )
     else:
         update.effective_message.reply_text(
-            "මම දැනටමත් අවදියෙන් සිටිමි! 😉\n<b>එදා ඉඳන් නින්ද ගියේ නෑ:</b> <code>{}</code>".format(
+            "I'm awake already!\n<b>Haven't slept since:</b> <code>{}</code>".format(
                 uptime
             ),
             parse_mode=ParseMode.HTML,
@@ -230,19 +248,15 @@ def start(update: Update, context: CallbackContext):
 
 def error_handler(update, context):
     """Log the error and send a telegram message to notify the developer."""
-    # Log the error before we do anything else, so we can see it even if something breaks.
     LOGGER.error(msg="Exception while handling an update:", exc_info=context.error)
 
-    # traceback.format_exception returns the usual python message about an exception, but as a
-    # list of strings rather than a single string, so we have to join them together.
     tb_list = traceback.format_exception(
         None, context.error, context.error.__traceback__
     )
     tb = "".join(tb_list)
 
-    # Build the message with some markup and additional information about what happened.
     message = (
-        "An exception was raised while handling an update🐞\n"
+        "An exception was raised while handling an update\n"
         "<pre>update = {}</pre>\n\n"
         "<pre>{}</pre>"
     ).format(
@@ -252,11 +266,9 @@ def error_handler(update, context):
 
     if len(message) >= 4096:
         message = message[:4096]
-    # Finally, send the message
     context.bot.send_message(chat_id=OWNER_ID, text=message, parse_mode=ParseMode.HTML)
 
 
-# for test purposes
 def error_callback(update: Update, context: CallbackContext):
     error = context.error
     try:
@@ -264,26 +276,20 @@ def error_callback(update: Update, context: CallbackContext):
     except Unauthorized:
         print("no nono1")
         print(error)
-        # remove update.message.chat_id from conversation list
     except BadRequest:
         print("no nono2")
         print("BadRequest caught")
         print(error)
 
-        # handle malformed requests - read more below!
     except TimedOut:
         print("no nono3")
-        # handle slow connection problems
     except NetworkError:
         print("no nono4")
-        # handle other connection problems
     except ChatMigrated as err:
         print("no nono5")
         print(err)
-        # the chat_id of a group has changed, use e.new_chat_id instead
     except TelegramError:
         print(error)
-        # handle all other telegram related errors
 
 
 @run_async
@@ -297,7 +303,7 @@ def help_button(update, context):
         if mod_match:
             module = mod_match.group(1)
             text = (
-                "*⚊❮❮❮❮ ｢  Help  for  {}  module 」❯❯❯❯⚊*\n".format(
+                "*｢ Help for DewmiBot {} Module 」*\n".format(
                     HELPABLE[module].__mod_name__
                 )
                 + HELPABLE[module].__help__
@@ -312,7 +318,8 @@ def help_button(update, context):
 
         elif prev_match:
             curr_page = int(prev_match.group(1))
-            query.message.edit_text(
+            update.effective_message.reply_photo(
+                PM_IMG,
                 HELP_STRINGS,
                 parse_mode=ParseMode.MARKDOWN,
                 reply_markup=InlineKeyboardMarkup(
@@ -355,45 +362,49 @@ def help_button(update, context):
 
 
 @run_async
-def Natsuki_about_callback(update, context):
+def DewmiBot_about_callback(update, context):
     query = update.callback_query
     if query.data == "aboutmanu_":
         query.message.edit_text(
-            text=f"* 👋Hi There  The name's {dispatcher.bot.first_name} \n\nAs  You I'm a next generational group management bot developed by @SLNinjaTeam Updates.* "
-            f"\n\n Join [@SLNinjaTeam](https://t.me/SLNinjaTeam) To Keep Yourself Updated About {dispatcher.bot.first_name}"
-            f"\n\n I have the normal GROUP MANAGING functions like flood control, a warning system etc but I mainly have the advanced and handy Antispam system and the SIBYL banning system which safegaurds and helps your group from spammers."
-            f"\n\nI Can Manage Your Groups Smoothly, With Some Special Features"
-            f"\n\nYou Can Know More About Me By Clicking The Below Buttons",
+            text=f"👋 Hi again!  The name's {dispatcher.bot.first_name} is a Powerful BOT to Make Your Groups Secured and Organized Developed by [GD Hiruna](https://t.me/hirunaofficial)"
+            f"\n\n✍️ Join [SL Tech Zone](https://t.me/sltechzone) To Keep Yourself Updated About {dispatcher.bot.first_name}"
+            f"\n\n💪 I have the normal GROUP MANAGING functions like flood control, a warning system etc but I mainly have the advanced and handy Antispam system and the SIBYL banning system which safegaurds and helps your group from spammers."
+            f"\n\n👊 I Can Manage Your Groups Smoothly, With Some Special Features."
+            f"\n\n[👇](https://telegra.ph/file/8cabfc3e05d3302d73dde.jpg) You Can Know More About Me By Clicking The Below Buttons.",
             parse_mode=ParseMode.MARKDOWN,
             disable_web_page_preview=True,
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
                         InlineKeyboardButton(
-                            text="🙋‍♀️ How To Use Me", callback_data="aboutmanu_howto"
+                            text="How To Use Me", callback_data="aboutmanu_howto"
                         ),
                         InlineKeyboardButton(
-                            text="🗒 Terms and Conditions", callback_data="aboutmanu_tac"
+                            text="T & C", callback_data="aboutmanu_tac"
                         ),
                     ],
-                    [InlineKeyboardButton(text="Help ❔", callback_data="help_back")],
+                    [
+                        InlineKeyboardButton(
+                            text="Help & Commands ❔", callback_data="help_back"
+                        )
+                    ],
                     [InlineKeyboardButton(text="Back", callback_data="aboutmanu_back")],
                 ]
             ),
         )
     elif query.data == "aboutmanu_back":
         query.message.edit_text(
-            PM_START_TEXT,
-            reply_markup=InlineKeyboardMarkup(buttons),
-            parse_mode=ParseMode.MARKDOWN,
-            timeout=60,
+                PM_START_TEXT,
+                reply_markup=InlineKeyboardMarkup(BUTTONS),
+                parse_mode=ParseMode.MARKDOWN,
+                timeout=60,
         )
 
     elif query.data == "aboutmanu_howto":
         query.message.edit_text(
             text=f"* ｢ BASIC HELP 」*"
-            f"\nIf You Can Also Add {dispatcher.bot.first_name} To Your Chats By Clicking [Here](http://t.me/{dispatcher.bot.username}?startgroup=true) And Selecting Chat. \n"
-            f"\n\nYou Can get support {dispatcher.bot.first_name} by joining [@SLNinjaTeam](https://t.me/@SLNinjaTeam).\n"
+            f"\n\n👉 If You Can Also Add {dispatcher.bot.first_name} To Your Chats By Clicking [Here](http://t.me/{dispatcher.bot.username}?startgroup=true) And Selecting Chat. \n"
+            f"\n\n👉 You Can get support {dispatcher.bot.first_name} by joining [SL Tech Zone](https://t.me/sltechzone).\n"
             f"",
             parse_mode=ParseMode.MARKDOWN,
             disable_web_page_preview=True,
@@ -401,9 +412,11 @@ def Natsuki_about_callback(update, context):
                 [
                     [
                         InlineKeyboardButton(
-                            text="Admins", callback_data="aboutmanu_permis"
+                            text="Admins Settings", callback_data="aboutmanu_permis"
                         ),
-                        InlineKeyboardButton(text="Help", callback_data="help_back"),
+                        InlineKeyboardButton(
+                            text="Anti Spam", callback_data="aboutmanu_spamprot"
+                        ),
                     ],
                     [InlineKeyboardButton(text="Back", callback_data="aboutmanu_")],
                 ]
@@ -411,9 +424,9 @@ def Natsuki_about_callback(update, context):
         )
     elif query.data == "aboutmanu_credit":
         query.message.edit_text(
-            text=f"*{dispatcher.bot.first_name} Is the redisigned version of Daisy and Naruto for the best performance.*"
-            f"\n\nBased on [@SLNinjaTeam](https://t.me/SLNinjaTeam)."
-            f"\n\nIf Any Question About {dispatcher.bot.first_name}, \nLet Us Know At @{SUPPORT_CHAT}.",
+            text=f"*{dispatcher.bot.first_name} Is the redisigned version of SenkuRobot for the best performance.*"
+            f"\n\n{dispatcher.bot.first_name}'s source code was Devoloped By [GD Hiruna](https://t.me/hirunaofficial)"
+            f"\n\nIf Any Question About {dispatcher.bot.first_name}, Let Us Know At @{SUPPORT_CHAT}.",
             parse_mode=ParseMode.MARKDOWN,
             disable_web_page_preview=True,
             reply_markup=InlineKeyboardMarkup(
@@ -424,12 +437,12 @@ def Natsuki_about_callback(update, context):
     elif query.data == "aboutmanu_permis":
         query.message.edit_text(
             text=f"<b> ｢ Admin Permissions 」</b>"
-            f"\nTo avoid slowing down, {dispatcher.bot.first_name} caches admin rights for each user. This cache lasts about 10 minutes; this may change in the future. This means that if you promote a user manually (without using the /promote command), {dispatcher.bot.first_name} will only find out ~10 minutes later."
-            f"\n\nIF you want to update them immediately, you can use the /admincache command,thta'll force {dispatcher.bot.first_name} to check who the admins are again and their permissions"
-            f"\n\nIf you are getting a message saying:"
+            f"\n\n👉 To avoid slowing down, {dispatcher.bot.first_name} caches admin rights for each user. This cache lasts about 10 minutes; this may change in the future. This means that if you promote a user manually (without using the /promote command), {dispatcher.bot.first_name} will only find out ~10 minutes later."
+            f"\n\n👉 IF you want to update them immediately, you can use the /admincache command,thta'll force {dispatcher.bot.first_name} to check who the admins are again and their permissions"
+            f"\n\n👉 If you are getting a message saying:"
             f"\n<Code>You must be this chat administrator to perform this action!</code>"
-            f"\nThis has nothing to do with {dispatcher.bot.first_name}'s rights; this is all about YOUR permissions as an admin. {dispatcher.bot.first_name} respects admin permissions; if you do not have the Ban Users permission as a telegram admin, you won't be able to ban users with {dispatcher.bot.first_name}. Similarly, to change {dispatcher.bot.first_name} settings, you need to have the Change group info permission."
-            f"\n\nThe message very clearly says that you need these rights - <i>not {dispatcher.bot.first_name}.</i>",
+            f"\n\n👉This has nothing to do with {dispatcher.bot.first_name}'s rights; this is all about YOUR permissions as an admin. {dispatcher.bot.first_name} respects admin permissions; if you do not have the Ban Users permission as a telegram admin, you won't be able to ban users with {dispatcher.bot.first_name}. Similarly, to change {dispatcher.bot.first_name} settings, you need to have the Change group info permission."
+            f"\n\n👉The message very clearly says that you need these rights - <i>not {dispatcher.bot.first_name}.</i>",
             parse_mode=ParseMode.HTML,
             reply_markup=InlineKeyboardMarkup(
                 [[InlineKeyboardButton(text="Back", callback_data="aboutmanu_howto")]]
@@ -438,26 +451,26 @@ def Natsuki_about_callback(update, context):
     elif query.data == "aboutmanu_spamprot":
         query.message.edit_text(
             text="* ｢ Anti-Spam Settings 」*"
-            "\n- /antispam <on/off/yes/no>: Change antispam security settings in the group, or return your current settings(when no arguments)."
+            "\n\n👉 /antispam <on/off/yes/no>: Change antispam security settings in the group, or return your current settings(when no arguments)."
             "\n_This helps protect you and your groups by removing spam flooders as quickly as possible._"
-            "\n\n- /setflood <int/'no'/'off'>: enables or disables flood control"
-            "\n- /setfloodmode <ban/kick/mute/tban/tmute> <value>: Action to perform when user have exceeded flood limit. ban/kick/mute/tmute/tban"
+            "\n\n👉 /setflood <int/'no'/'off'>: enables or disables flood control"
+            "\n👉 /setfloodmode <ban/kick/mute/tban/tmute> <value>: Action to perform when user have exceeded flood limit. ban/kick/mute/tmute/tban"
             "\n_Antiflood allows you to take action on users that send more than x messages in a row. Exceeding the set flood will result in restricting that user._"
-            "\n\n- /addblacklist <triggers>: Add a trigger to the blacklist. Each line is considered one trigger, so using different lines will allow you to add multiple triggers."
-            "\n- /blacklistmode <off/del/warn/ban/kick/mute/tban/tmute>: Action to perform when someone sends blacklisted words."
+            "\n\n👉 /addblacklist <triggers>: Add a trigger to the blacklist. Each line is considered one trigger, so using different lines will allow you to add multiple triggers."
+            "\n👉 /blacklistmode <off/del/warn/ban/kick/mute/tban/tmute>: Action to perform when someone sends blacklisted words."
             "\n_Blacklists are used to stop certain triggers from being said in a group. Any time the trigger is mentioned, the message will immediately be deleted. A good combo is sometimes to pair this up with warn filters!_"
-            "\n\n- /reports <on/off>: Change report setting, or view current status."
+            "\n\n👉 /reports <on/off>: Change report setting, or view current status."
             "\n • If done in pm, toggles your status."
             "\n • If in chat, toggles that chat's status."
             "\n_If someone in your group thinks someone needs reporting, they now have an easy way to call all admins._"
-            "\n\n- /lock <type>: Lock items of a certain type (not available in private)"
-            "\n- /locktypes: Lists all possible locktypes"
+            "\n\n👉 /lock <type>: Lock items of a certain type (not available in private)"
+            "\n👉 /locktypes: Lists all possible locktypes"
             "\n_The locks module allows you to lock away some common items in the telegram world; the bot will automatically delete them!_"
-            '\n\n- /addwarn <keyword> <reply message>: Sets a warning filter on a certain keyword. If you want your keyword to be a sentence, encompass it with quotes, as such: /addwarn "very angry" This is an angry user. '
-            "\n- /warn <userhandle>: Warns a user. After 3 warns, the user will be banned from the group. Can also be used as a reply."
-            "\n- /strongwarn <on/yes/off/no>: If set to on, exceeding the warn limit will result in a ban. Else, will just kick."
+            '\n\n👉 /addwarn <keyword> <reply message>: Sets a warning filter on a certain keyword. If you want your keyword to be a sentence, encompass it with quotes, as such: /addwarn "very angry" This is an angry user. '
+            "\n👉 /warn <userhandle>: Warns a user. After 3 warns, the user will be banned from the group. Can also be used as a reply."
+            "\n👉 /strongwarn <on/yes/off/no>: If set to on, exceeding the warn limit will result in a ban. Else, will just kick."
             "\n_If you're looking for a way to automatically warn users when they say certain things, use the /addwarn command._"
-            "\n\n- /welcomemute <off/soft/strong>: All users that join, get muted"
+            "\n\n👉 /welcomemute <off/soft/strong>: All users that join, get muted"
             "\n_ A button gets added to the welcome message for them to unmute themselves. This proves they aren't a bot! soft - restricts users ability to post media for 24 hours. strong - mutes on join until they prove they're not bots._",
             parse_mode=ParseMode.MARKDOWN,
             reply_markup=InlineKeyboardMarkup(
@@ -467,14 +480,14 @@ def Natsuki_about_callback(update, context):
     elif query.data == "aboutmanu_tac":
         query.message.edit_text(
             text=f"<b> ｢ Terms and Conditions 」</b>\n"
-            f"\n<i>To Use This Bot, You Need To Read Terms and Conditions Carefully.</i>\n"
-            f"\n✪ We always respect your privacy \n  We never log into bot's api and spying on you \n  We use a encripted database \n  Bot will automatically stops if someone logged in with api."
-            f"\n✪ Always try to keep credits, so \n  This hardwork is done by SLNinjaBot Updates team spending many sleepless nights.. So, Respect it."
-            f"\n✪ Some modules in this bot is owned by different authors, So, \n  All credits goes to them \n  Also for <b>Paul Larson for Marie</b>."
-            f"\n✪ If you need to ask anything about \n  this bot, Go @{SUPPORT_CHAT}."
-            f"\n✪ If you asking nonsense in Support \n  Chat, you will get warned/banned."
-            f"\n✪ All api's we used owned by originnal authors \n  Some api's we use Free version \n  Please don't overuse AI Chat."
-            f"\n✪ We don't Provide any support to forks,\n  So these terms and conditions not applied to forks \n  If you are using a fork of SLNinjaBot we are not resposible for anything."
+            f"\n👊 <i>To Use This Bot, You Need To Read Terms and Conditions Carefully.</i> 🙏\n"
+            f"\n👉 We always respect your privacy \n  We never log into bot's api and spying on you \n  We use a encripted database \n  Bot will automatically stops if someone logged in with api."
+            f"\n👉 Always try to keep credits, so \n  This hardwork is done by GD Hiruna team .. So, Respect it."
+            f"\n👉 Some modules in this bot is owned by different authors, So, \n  All credits goes to them \n  Also for <b>Paul Larson for Marie</b>."
+            f"\n👉 If you need to ask anything about \n  this bot, Go @{SUPPORT_CHAT}."
+            f"\n👉 If you asking nonsense in Support \n  Chat, you will get warned/banned."
+            f"\n👉 All api's we used owned by originnal authors \n  Some api's we use Free version \n  Please don't overuse AI Chat."
+            f"\n👉 We don't Provide any support to forks,\n  So these terms and conditions not applied to forks \n  If you are using a fork of dewmibot we are not resposible for anything."
             f"\n\nFor any kind of help, related to this bot, Join @{SUPPORT_CHAT}."
             f"\n\n<i>Terms & Conditions will be changed anytime</i>\n",
             parse_mode=ParseMode.HTML,
@@ -502,7 +515,7 @@ def get_help(update, context):
         if len(args) >= 2 and any(args[1].lower() == x for x in HELPABLE):
             module = args[1].lower()
             update.effective_message.reply_text(
-                f"හෙලෝ මාගේ සහය ලබා ගැනිමට Help බොත්තම ඔබන්න. {module.capitalize()}",
+                f"Contact me in PM to get help of {module.capitalize()}",
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
@@ -518,18 +531,18 @@ def get_help(update, context):
             )
             return
         update.effective_message.reply_text(
-           "හෙලෝ මාගේ සහය ලබා ගැනිමට Help බොත්තම ඔබන්න.",
+            "Contact me in PM to get the list of possible commands.",
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
                         InlineKeyboardButton(
-                            text="☘️ Help ☘️",
+                            text="Help",
                             url="t.me/{}?start=help".format(context.bot.username),
                         )
                     ],
                     [
                         InlineKeyboardButton(
-                            text="🌸 Support Chat 🌸",
+                            text="Support Chat",
                             url="https://t.me/{}".format(SUPPORT_CHAT),
                         )
                     ],
@@ -696,7 +709,7 @@ def get_settings(update: Update, context: CallbackContext):
     # ONLY send settings in PM
     if chat.type != chat.PRIVATE:
         if is_user_admin(chat, user.id):
-            text = "හෙලෝ මා සැකසීමට,පහත ඇති බොත්තම ඔබන්න."
+            text = "Click here to get this chat's settings, as well as yours."
             msg.reply_text(
                 text,
                 reply_markup=InlineKeyboardMarkup(
@@ -796,7 +809,7 @@ def main():
 
     if SUPPORT_CHAT is not None and isinstance(SUPPORT_CHAT, str):
         try:
-            dispatcher.bot.sendMessage(f"@{SUPPORT_CHAT}", "මම දැන් ඔන්ලයින් ! 😉")
+            dispatcher.bot.sendMessage(f"@{SUPPORT_CHAT}", "I am now online!")
         except Unauthorized:
             LOGGER.warning(
                 "Bot isnt able to send message to support_chat, go and check!"
@@ -814,7 +827,7 @@ def main():
     settings_callback_handler = CallbackQueryHandler(settings_button, pattern=r"stngs_")
 
     about_callback_handler = CallbackQueryHandler(
-        Natsuki_about_callback, pattern=r"aboutmanu_"
+        DewmiBot_about_callback, pattern=r"aboutmanu_"
     )
 
     donate_handler = CommandHandler("donate", donate)
@@ -862,5 +875,3 @@ if __name__ == "__main__":
     telethn.start(bot_token=TOKEN)
     pbot.start()
     main()
-
-    ####

@@ -78,6 +78,8 @@ HELP_STRINGS = f"""
     "" if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n",
 )
 
+EZILAX_IMG = "https://telegra.ph/file/e5ed21083622be1f76717.jpg"
+
 DONATE_STRING = """Heya, glad to hear you want to donate!
 You can donate to the original writer's of the Base code,
 Support them  [SLNinjaTeam](t.me/SLNinjaTeam)"""

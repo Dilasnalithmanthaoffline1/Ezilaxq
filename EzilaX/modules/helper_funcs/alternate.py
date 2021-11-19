@@ -1,6 +1,7 @@
-from telegram.error import BadRequest
 from functools import wraps
+
 from telegram import ChatAction
+from telegram.error import BadRequest
 
 
 def send_message(message, text, *args, **kwargs):
@@ -20,7 +21,10 @@ def typing_action(func):
             chat_id=update.effective_chat.id, action=ChatAction.TYPING
         )
         return func(update, context, *args, **kwargs)
-    
+
+    return command_func
+
+
 def send_action(action):
     """Sends `action` while processing func command."""
 
@@ -34,4 +38,4 @@ def send_action(action):
 
         return command_func
 
-        return decorator
+    return decorator

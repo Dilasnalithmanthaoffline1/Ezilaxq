@@ -111,10 +111,14 @@ MIGRATEABLE = []
 HELPABLE = {}
 STATS = []
 USER_INFO = []
+USER_BOOK = []
 DATA_IMPORT = []
 DATA_EXPORT = []
+
 CHAT_SETTINGS = {}
 USER_SETTINGS = {}
+
+GDPR = []
 
 for module_name in ALL_MODULES:
     imported_module = importlib.import_module("EzilaX.modules." + module_name)

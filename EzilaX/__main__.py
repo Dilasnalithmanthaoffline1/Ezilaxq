@@ -54,6 +54,8 @@ from EzilaX import (
     updater,
 )
 
+# needed to dynamically load modules
+# NOTE: Module order is not guaranteed, specify that in the config file!
 from EzilaX.modules import ALL_MODULES
 from EzilaX.modules.helper_funcs.alternate import typing_action
 from EzilaX.modules.helper_funcs.chat_status import is_user_admin
@@ -62,8 +64,24 @@ from EzilaX.modules.helper_funcs.readable_time import get_readable_time
 
 PM_START_TEXT = """
 ʜᴇʟʟᴏ  [🌸](https://telegra.ph/file/e5ed21083622be1f76717.jpg), ɪᴍ ᴀ ʜɪɢʜʏ ᴀᴅᴠᴀɴᴄᴇᴅ ʙᴏᴛ ᴡɪᴛʜ ʟᴏᴛꜱ ᴏꜰ ᴀᴍᴀᴢɪɴɢ ᴛᴏᴏʟꜱ.
-`ɪ'ᴍ ʜᴇʀᴇ ᴛᴏ ʜᴇʟᴘ ʏᴏᴜ ᴍᴀɴᴀɢᴇ ʏᴏᴜʀ ɢʀᴏᴜᴘꜱ! ʜɪᴛ` /help   
+`ɪ'ᴍ ʜᴇʀᴇ ᴛᴏ ʜᴇʟᴘ ʏᴏᴜ ᴍᴀɴᴀɢᴇ ʏᴏᴜʀ ɢʀᴏᴜᴘꜱ! ʜɪᴛ` /help  
 """
+
+buttons = [
+    [
+        InlineKeyboardButton(
+            text="➕️ ᴀᴅᴅ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘ ➕️", url="t.me/slninjabot?startgroup=true"),
+    ],
+    [
+        InlineKeyboardButton(
+            text="☘️ ꜱᴜᴘᴘᴏʀᴛ ☘️", url=f"https://t.me/slninjateam"),
+    ],
+    [
+        InlineKeyboardButton(text="ʜᴇʟᴘ & ᴄᴏᴍᴍᴀɴᴅꜱ❔", callback_data="help_back"),
+    ],
+]
+
+EzilaX_IMG = "https://telegra.ph/file/e5ed21083622be1f76717.jpg"
 
 HELP_STRINGS = f"""
 `ʜɪ..[🌸](https://telegra.ph/file/e5ed21083622be1f76717.jpg)
@@ -78,25 +96,10 @@ HELP_STRINGS = f"""
     "" if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n",
 )
 
-EZILAX_IMG = "https://telegra.ph/file/e5ed21083622be1f76717.jpg"
 
-DONATE_STRING = """Heya, glad to hear you want to donate!
+DONATE_STRING =  """Heya, glad to hear you want to donate!
 You can donate to the original writer's of the Base code,
 Support them  [SLNinjaTeam](t.me/SLNinjaTeam)"""
-
-BUTTONS = [
-    [
-        InlineKeyboardButton(
-            text="➕️ ᴀᴅᴅ ᴛᴏ ʏᴏᴜʀ ɢʀᴏᴜᴘ ➕️", url="t.me/slninjabot?startgroup=true"),
-    ],
-    [
-        InlineKeyboardButton(
-            text="☘️ ꜱᴜᴘᴘᴏʀᴛ ☘️", url=f"https://t.me/slninjateam"),
-    ],
-    [
-        InlineKeyboardButton(text="ʜᴇʟᴘ & ᴄᴏᴍᴍᴀɴᴅꜱ❔", callback_data="https://t.me/slninjabot?start=help"),
-    ],
-]
 
 IMPORTED = {}
 MIGRATEABLE = []
@@ -159,11 +162,7 @@ def send_help(chat_id, text, keyboard=None):
     if not keyboard:
         keyboard = InlineKeyboardMarkup(paginate_modules(0, HELPABLE, "help"))
     dispatcher.bot.send_message(
-        chat_id=chat_id,
-        text=text,
-        parse_mode=ParseMode.MARKDOWN,
-        disable_web_page_preview=True,
-        reply_markup=keyboard,
+        chat_id=chat_id, text=text, parse_mode=ParseMode.MARKDOWN, reply_markup=keyboard
     )
 
 
@@ -213,11 +212,12 @@ def start(update: Update, context: CallbackContext):
                 IMPORTED["rules"].send_rules(update, args[0], from_pm=True)
 
         else:
+            update.effective_user.first_name
             update.effective_message.reply_text(
                 PM_START_TEXT,
-                reply_markup=InlineKeyboardMarkup(BUTTONS),
+                reply_markup=InlineKeyboardMarkup(buttons),
                 parse_mode=ParseMode.MARKDOWN,
-                timeout=60, 
+                timeout=60,
             )
     else:
         update.effective_message.reply_text(
@@ -230,27 +230,33 @@ def start(update: Update, context: CallbackContext):
 
 def error_handler(update, context):
     """Log the error and send a telegram message to notify the developer."""
+    # Log the error before we do anything else, so we can see it even if something breaks.
     LOGGER.error(msg="Exception while handling an update:", exc_info=context.error)
 
+    # traceback.format_exception returns the usual python message about an exception, but as a
+    # list of strings rather than a single string, so we have to join them together.
     tb_list = traceback.format_exception(
         None, context.error, context.error.__traceback__
     )
     tb = "".join(tb_list)
 
+    # Build the message with some markup and additional information about what happened.
     message = (
-        "An exception was raised while handling an update\n"
+        "An exception was raised while handling an update🐞\n"
         "<pre>update = {}</pre>\n\n"
         "<pre>{}</pre>"
     ).format(
-         html.escape(json.dumps(update.to_dict(), indent=2, ensure_ascii=False)),
+        html.escape(json.dumps(update.to_dict(), indent=2, ensure_ascii=False)),
         html.escape(tb),
     )
 
     if len(message) >= 4096:
         message = message[:4096]
+    # Finally, send the message
     context.bot.send_message(chat_id=OWNER_ID, text=message, parse_mode=ParseMode.HTML)
 
 
+# for test purposes
 def error_callback(update: Update, context: CallbackContext):
     error = context.error
     try:
@@ -258,20 +264,26 @@ def error_callback(update: Update, context: CallbackContext):
     except Unauthorized:
         print("no nono1")
         print(error)
+        # remove update.message.chat_id from conversation list
     except BadRequest:
         print("no nono2")
         print("BadRequest caught")
         print(error)
 
+        # handle malformed requests - read more below!
     except TimedOut:
         print("no nono3")
+        # handle slow connection problems
     except NetworkError:
         print("no nono4")
+        # handle other connection problems
     except ChatMigrated as err:
         print("no nono5")
         print(err)
+        # the chat_id of a group has changed, use e.new_chat_id instead
     except TelegramError:
         print(error)
+        # handle all other telegram related errors
 
 
 @run_async
@@ -300,8 +312,7 @@ def help_button(update, context):
 
         elif prev_match:
             curr_page = int(prev_match.group(1))
-            update.effective_message.reply_photo(
-                PM_IMG,
+            query.message.edit_text(
                 HELP_STRINGS,
                 parse_mode=ParseMode.MARKDOWN,
                 reply_markup=InlineKeyboardMarkup(
@@ -344,7 +355,7 @@ def help_button(update, context):
 
 
 @run_async
-def DewmiBot_about_callback(update, context):
+def Natsuki_about_callback(update, context):
     query = update.callback_query
     if query.data == "aboutmanu_":
         query.message.edit_text(
@@ -353,32 +364,29 @@ def DewmiBot_about_callback(update, context):
             f"\n\n I have the normal GROUP MANAGING functions like flood control, a warning system etc but I mainly have the advanced and handy Antispam system and the SIBYL banning system which safegaurds and helps your group from spammers."
             f"\n\nI Can Manage Your Groups Smoothly, With Some Special Features"
             f"\n\nYou Can Know More About Me By Clicking The Below Buttons",
+            parse_mode=ParseMode.MARKDOWN,
             disable_web_page_preview=True,
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
                         InlineKeyboardButton(
-                            text="How To Use Me", callback_data="aboutmanu_howto"
+                            text="🙋‍♀️ How To Use Me", callback_data="aboutmanu_howto"
                         ),
                         InlineKeyboardButton(
-                            text="T & C", callback_data="aboutmanu_tac"
+                            text="🗒 Terms and Conditions", callback_data="aboutmanu_tac"
                         ),
                     ],
-                    [
-                        InlineKeyboardButton(
-                            text="Help & Commands ❔", callback_data="help_back"
-                        )
-                    ],
+                    [InlineKeyboardButton(text="Help ❔", callback_data="help_back")],
                     [InlineKeyboardButton(text="Back", callback_data="aboutmanu_back")],
                 ]
             ),
         )
     elif query.data == "aboutmanu_back":
         query.message.edit_text(
-                PM_START_TEXT,
-                reply_markup=InlineKeyboardMarkup(BUTTONS),
-                parse_mode=ParseMode.MARKDOWN,
-                timeout=60,
+            PM_START_TEXT,
+            reply_markup=InlineKeyboardMarkup(buttons),
+            parse_mode=ParseMode.MARKDOWN,
+            timeout=60,
         )
 
     elif query.data == "aboutmanu_howto":
@@ -393,11 +401,9 @@ def DewmiBot_about_callback(update, context):
                 [
                     [
                         InlineKeyboardButton(
-                            text="Admins Settings", callback_data="aboutmanu_permis"
+                            text="Admins", callback_data="aboutmanu_permis"
                         ),
-                        InlineKeyboardButton(
-                            text="Anti Spam", callback_data="aboutmanu_spamprot"
-                        ),
+                        InlineKeyboardButton(text="Help", callback_data="help_back"),
                     ],
                     [InlineKeyboardButton(text="Back", callback_data="aboutmanu_")],
                 ]
@@ -417,7 +423,7 @@ def DewmiBot_about_callback(update, context):
 
     elif query.data == "aboutmanu_permis":
         query.message.edit_text(
-           text=f"<b> ｢ Admin Permissions 」</b>"
+            text=f"<b> ｢ Admin Permissions 」</b>"
             f"\nTo avoid slowing down, {dispatcher.bot.first_name} caches admin rights for each user. This cache lasts about 10 minutes; this may change in the future. This means that if you promote a user manually (without using the /promote command), {dispatcher.bot.first_name} will only find out ~10 minutes later."
             f"\n\nIF you want to update them immediately, you can use the /admincache command,thta'll force {dispatcher.bot.first_name} to check who the admins are again and their permissions"
             f"\n\nIf you are getting a message saying:"
@@ -512,7 +518,7 @@ def get_help(update, context):
             )
             return
         update.effective_message.reply_text(
-            "හෙලෝ මාගේ සහය ලබා ගැනිමට Help බොත්තම ඔබන්න.",
+           "හෙලෝ මාගේ සහය ලබා ගැනිමට Help බොත්තම ඔබන්න.",
             reply_markup=InlineKeyboardMarkup(
                 [
                     [
@@ -690,7 +696,7 @@ def get_settings(update: Update, context: CallbackContext):
     # ONLY send settings in PM
     if chat.type != chat.PRIVATE:
         if is_user_admin(chat, user.id):
-            text = "හෙලෝ මා සැකසීමට, /settings විධානය භාවිතා කරන්න හෝ පහත ඇති බොත්තම ඔබන්න."
+            text = "හෙලෝ මා සැකසීමට,පහත ඇති බොත්තම ඔබන්න."
             msg.reply_text(
                 text,
                 reply_markup=InlineKeyboardMarkup(
@@ -808,7 +814,7 @@ def main():
     settings_callback_handler = CallbackQueryHandler(settings_button, pattern=r"stngs_")
 
     about_callback_handler = CallbackQueryHandler(
-        DewmiBot_about_callback, pattern=r"aboutmanu_"
+        Natsuki_about_callback, pattern=r"aboutmanu_"
     )
 
     donate_handler = CommandHandler("donate", donate)
@@ -856,3 +862,5 @@ if __name__ == "__main__":
     telethn.start(bot_token=TOKEN)
     pbot.start()
     main()
+
+    ####

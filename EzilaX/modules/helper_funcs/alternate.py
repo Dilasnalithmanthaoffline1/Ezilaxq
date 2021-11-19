@@ -20,5 +20,18 @@ def typing_action(func):
             chat_id=update.effective_chat.id, action=ChatAction.TYPING
         )
         return func(update, context, *args, **kwargs)
+    
+def send_action(action):
+    """Sends `action` while processing func command."""
 
-    return command_func
+    def decorator(func):
+        @wraps(func)
+        def command_func(update, context, *args, **kwargs):
+            context.bot.send_chat_action(
+                chat_id=update.effective_chat.id, action=action
+            )
+            return func(update, context, *args, **kwargs)
+
+        return command_func
+
+        return decorator

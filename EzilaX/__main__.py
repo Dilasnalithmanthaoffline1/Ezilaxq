@@ -66,9 +66,8 @@ PM_START_TEXT = """
 """
 
 HELP_STRINGS = f"""
-*Main Commands :* [🤖](https://telegra.ph/file/8cabfc3e05d3302d73dde.jpg)
-I'm Powerful BOT to Make Your Groups Secured and Organized & I help admins to manage their groups! Have a look at the following for an idea of some of \
-the things I can help you with.
+*Main Commands :* [🌸](https://telegra.ph/file/e5ed21083622be1f76717.jpg)
+`ᴄʟɪᴄᴋ ᴏɴ ᴛʜᴇ ʙᴜᴛᴛᴏɴꜱ ʙᴇʟᴏᴡ ᴛᴏ ɢᴇᴛ ᴅᴏᴄᴜᴍᴇɴᴛᴀᴛɪᴏɴ ᴀʙᴏᴜᴛ ꜱᴘᴇᴄɪꜰɪᴄ ᴍᴏᴅᴜʟᴇꜱ..`
 Main commands available:
  • /help: PM's you this message.
  • /help <module name>: PM's you info about that module.

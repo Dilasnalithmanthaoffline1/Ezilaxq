@@ -54,8 +54,6 @@ from EzilaX import (
     updater,
 )
 
-# needed to dynamically load modules
-# NOTE: Module order is not guaranteed, specify that in the config file!
 from EzilaX.modules import ALL_MODULES
 from EzilaX.modules.helper_funcs.alternate import typing_action
 from EzilaX.modules.helper_funcs.chat_status import is_user_admin
@@ -66,6 +64,24 @@ PM_START_TEXT = """
 ʜᴇʟʟᴏ  [🌸](https://telegra.ph/file/e5ed21083622be1f76717.jpg), ɪᴍ ᴀ ʜɪɢʜʏ ᴀᴅᴠᴀɴᴄᴇᴅ ʙᴏᴛ ᴡɪᴛʜ ʟᴏᴛꜱ ᴏꜰ ᴀᴍᴀᴢɪɴɢ ᴛᴏᴏʟꜱ.
 `ɪ'ᴍ ʜᴇʀᴇ ᴛᴏ ʜᴇʟᴘ ʏᴏᴜ ᴍᴀɴᴀɢᴇ ʏᴏᴜʀ ɢʀᴏᴜᴘꜱ! ʜɪᴛ` /help   
 """
+
+HELP_STRINGS = f"""
+`ʜɪ..[🌸](https://telegra.ph/file/e5ed21083622be1f76717.jpg)
+`ᴄʟɪᴄᴋ ᴏɴ ᴛʜᴇ ʙᴜᴛᴛᴏɴꜱ ʙᴇʟᴏᴡ ᴛᴏ ɢᴇᴛ ᴅᴏᴄᴜᴍᴇɴᴛᴀᴛɪᴏɴ ᴀʙᴏᴜᴛ ꜱᴘᴇᴄɪꜰɪᴄ ᴍᴏᴅᴜʟᴇꜱ..`
+✪ /start: Starts me! You've probably already used this.
+✪ /help: Click this, I'll let you know about myself!
+✪ /settings: 
+   ◔ in PM: will send you your settings for all supported modules.
+   ◔ in a Group: will redirect you to pm, with all that chat's settings.
+""".format(
+    dispatcher.bot.first_name,
+    "" if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n",
+)
+
+DONATE_STRING = """Heya, glad to hear you want to donate!
+You can donate to the original writer's of the Base code,
+Support them  [SLNinjaTeam](t.me/SLNinjaTeam)"""
+
 
 buttons = [
     [
@@ -82,25 +98,6 @@ buttons = [
         InlineKeyboardButton(text="ʜᴇʟᴘ & ᴄᴏᴍᴍᴀɴᴅꜱ❔", callback_data="https://t.me/slninjabot?start=help"),
     ],
 ]
-
-HELP_STRINGS = """
-`ʜɪ..[🌸](https://telegra.ph/file/e5ed21083622be1f76717.jpg)
-`ᴄʟɪᴄᴋ ᴏɴ ᴛʜᴇ ʙᴜᴛᴛᴏɴꜱ ʙᴇʟᴏᴡ ᴛᴏ ɢᴇᴛ ᴅᴏᴄᴜᴍᴇɴᴛᴀᴛɪᴏɴ ᴀʙᴏᴜᴛ ꜱᴘᴇᴄɪꜰɪᴄ ᴍᴏᴅᴜʟᴇꜱ..`
-✪ /start: Starts me! You've probably already used this.
-✪ /help: Click this, I'll let you know about myself!
-✪ /settings: 
-   ◔ in PM: will send you your settings for all supported modules.
-   ◔ in a Group: will redirect you to pm, with all that chat's settings.
-""".format(
-    dispatcher.bot.first_name,
-    "" if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n",
-)
-
-EZILAX_IMG = "https://telegra.ph/file/e5ed21083622be1f76717.jpg"
-
-DONATE_STRING = """Heya, glad to hear you want to donate!
-You can donate to the original writer's of the Base code,
-Support them  [SLNinjaTeam](t.me/SLNinjaTeam)"""
 
 IMPORTED = {}
 MIGRATEABLE = []
